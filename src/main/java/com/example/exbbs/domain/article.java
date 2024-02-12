@@ -5,11 +5,11 @@ package com.example.exbbs.domain;
  */
 public class article {
   // 投稿ID
-  Integer id;
+  private Integer id;
   // 投稿者名
-  String name;
+  private String name;
   // 投稿内容
-  String content;
+  private String content;
 
   public Integer getId() {
     return id;
