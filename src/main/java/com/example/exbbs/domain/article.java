@@ -1,15 +1,19 @@
 package com.example.exbbs.domain;
 
+import java.util.List;
+
 /**
  * 記事情報を表すドメイン
  */
-public class article {
+public class Article {
   // 投稿ID
   private Integer id;
   // 投稿者名
   private String name;
   // 投稿内容
   private String content;
+  // コメントリスト
+  private List<Comment> commentList;
 
   public Integer getId() {
     return id;
@@ -35,8 +39,16 @@ public class article {
     this.content = content;
   }
 
+  public List<Comment> getCommentList() {
+    return commentList;
+  }
+
+  public void setCommentList(List<Comment> commentList) {
+    this.commentList = commentList;
+  }
+
   @Override
   public String toString() {
-    return "article [id=" + id + ", name=" + name + ", content=" + content + "]";
+    return "Article [id=" + id + ", name=" + name + ", content=" + content + ", commentList=" + commentList + "]";
   }
 }

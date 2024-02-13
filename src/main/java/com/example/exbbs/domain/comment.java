@@ -3,7 +3,7 @@ package com.example.exbbs.domain;
 /**
  * コメント情報を表すドメイン
  */
-public class comment {
+public class Comment {
   // コメントID
   Integer id;
   // 投稿者名
