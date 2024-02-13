@@ -1,17 +1,17 @@
 package com.example.exbbs.controller;
 
 import java.util.List;
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.exbbs.domain.Article;
+import com.example.exbbs.form.ArticleForm;
 import com.example.exbbs.repository.ArticleRepository;
-
-
 
 @Controller
 @RequestMapping("")
@@ -25,5 +25,13 @@ public class ArticleController {
     List<Article> articleList = articleRepository.findAll();
     model.addAttribute("articleList", articleList);
     return "index";
+  }
+  
+  @PostMapping("/insertArticle")
+  public String insertArticle(ArticleForm form) {
+    Article article = new Article();
+    BeanUtils.copyProperties(form, article);
+    articleRepository.insert(article);
+    return "redirect:/article";
   }
 }
