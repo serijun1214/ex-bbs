@@ -25,6 +25,10 @@
       <p>投稿者名：<span th:text="${article.name}"></span></p>
       <p>投稿内容：</p>
       <p th:text="${article.name}"></p>
+      <div th:each="comment : ${article.commentList}">
+        <p>コメント者名：<span th:text="${comment.name}"></span></p>
+        <p>コメント内容：<span th:text="${comment.comment}"></span></p>
+      </div>
       <hr />
     </div>
   </body>
