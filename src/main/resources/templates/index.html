@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>掲示板システム作成課題</title>
+    <title>掲示板システム</title>
   </head>
   <body>
     <h1>掲示板システム作成課題</h1>
@@ -24,11 +24,24 @@
     <div th:each="article : ${articleList}">
       <p>投稿者名：<span th:text="${article.name}"></span></p>
       <p>投稿内容：</p>
-      <p th:text="${article.name}"></p>
+      <p th:text="${article.content}"></p>
       <div th:each="comment : ${article.commentList}">
         <p>コメント者名：<span th:text="${comment.name}"></span></p>
-        <p>コメント内容：<span th:text="${comment.comment}"></span></p>
+        <p>コメント内容：</p>
+        <p th:text="${comment.content}"></p>
       </div>
+      <form th:action="@{/insertComment}" method="post">
+        <input type="hidden" name="articleId" th:value="${article.id}" />
+        <label for="name">コメント者名</label>
+        <br />
+        <input type="text" name="name" id="name" />
+        <br />
+        <label for="content">コメント内容</label>
+        <br />
+        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <br />
+        <button type="submit">コメント投稿</button>
+      </form>
       <hr />
     </div>
   </body>

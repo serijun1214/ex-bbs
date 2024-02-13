@@ -4,14 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.exbbs.domain.Article;
+import com.example.exbbs.domain.Comment;
 import com.example.exbbs.form.ArticleForm;
+import com.example.exbbs.form.CommentForm;
 import com.example.exbbs.repository.ArticleRepository;
 import com.example.exbbs.repository.CommentRepository;
 
@@ -32,7 +33,7 @@ public class ArticleController {
     for (Article article : articleList) {
       article.setCommentList(commentRepository.findByArticleId(article.getId()));
     }
-
+    
     model.addAttribute("articleList", articleList);
     return "index";
   }
@@ -42,6 +43,14 @@ public class ArticleController {
     Article article = new Article();
     BeanUtils.copyProperties(form, article);
     articleRepository.insert(article);
+    return "redirect:/article";
+  }
+
+  @PostMapping("/insertComment")
+  public String insertComment(CommentForm form) {
+    Comment comment = new Comment();
+    BeanUtils.copyProperties(form, comment);
+    commentRepository.insert(comment);
     return "redirect:/article";
   }
 }

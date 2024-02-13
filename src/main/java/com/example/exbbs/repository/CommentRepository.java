@@ -26,7 +26,7 @@ public class CommentRepository {
     Comment comment = new Comment();
     comment.setId(rs.getInt("id"));
     comment.setName(rs.getString("name"));
-    comment.setComment(rs.getString("content"));
+    comment.setContent(rs.getString("content"));
     comment.setArticleId(rs.getInt("article_id"));
     return comment;
   };
@@ -42,5 +42,21 @@ public class CommentRepository {
     param.addValue("articleId", articleId);
     List<Comment> commentList = template.query(sql, param, COMMENT_ROW_MAPPER);
     return commentList;
+  }
+
+  /**
+   * コメント情報を挿入
+   * @param comment コメント情報
+   */
+    /**
+   * 記事情報を挿入する.
+   */
+  public void insert(Comment comment) {
+    String sql = "INSERT INTO comments(name, content, article_id) VALUES(:name, :content, :articleId);";
+    MapSqlParameterSource param = new MapSqlParameterSource();
+    param.addValue("name", comment.getName());
+    param.addValue("content", comment.getContent());
+    param.addValue("articleId", comment.getArticleId());
+    template.update(sql, param);
   }
 }

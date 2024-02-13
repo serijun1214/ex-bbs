@@ -2,7 +2,6 @@ package com.example.exbbs.form;
 
 /**
  * 記事投稿フォーム
- 
  */
 public class ArticleForm {
   // 投稿者名
