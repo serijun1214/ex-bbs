@@ -9,16 +9,18 @@
     <h1>掲示板システム作成課題</h1>
 
     <!-- 記事投稿フォーム -->
-    <form th:action="@{/insertArticle}" method="post">
+    <form th:action="@{/insertArticle}" method="post" th:object="${articleForm}">
       <div>
+        <p th:errors="*{name}" style="color: red;"></p>
         <label for="articleName">投稿者名：</label>
         <br />
-        <input type="text" name="name" id="articleName" />
+        <input type="text" id="articleName" th:field="*{name}">
       </div>
       <div>
+        <p th:errors="*{content}" style="color: red;"></p>
         <label for="articleContent">投稿内容：</label>
         <br />
-        <textarea name="content" id="articleContent"></textarea>
+        <textarea id="articleContent" th:field="*{content}"></textarea>
       </div>
       <div>
         <input type="submit" value="投稿" />
@@ -34,7 +36,7 @@
       <p>投稿内容：</p>
       <p th:text="${article.content}"></p>
       <!-- 記事削除フォーム -->
-      <form
+      <formd
         th:action="@{/deleteArticle}"
         method="post"
       >
@@ -61,17 +63,19 @@
       </form>
       <br />
       <!-- コメント投稿フォーム -->
-      <form th:action="@{/insertComment}" method="post">
+      <form th:action="@{/insertComment}" method="post" th:object="${commentForm}">
         <input type="hidden" name="articleId" th:value="${article.id}" />
         <div>
+          <p th:if="*{articleId} == ${article.id}" th:errors="*{name}" style="color: red;"></p>
           <label for="articleName">名前：</label>
           <br />
-          <input type="text" name="name" id="articleName" />
+          <input type="text" id="articleName" th:field="*{name}">
         </div>
         <div>
+          <p th:if="*{articleId} == ${article.id}" th:errors="*{content}" style="color: red;"></p>
           <label for="articleContent">コメント内容：</label>
           <br />
-          <textarea name="content" id="articleContent"></textarea>
+          <textarea id="articleContent" th:field="*{content}"></textarea>
         </div>
         <div>
           <input type="submit" value="コメント投稿" />

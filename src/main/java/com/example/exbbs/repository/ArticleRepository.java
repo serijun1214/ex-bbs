@@ -107,7 +107,15 @@ public class ArticleRepository {
    * @param id 記事ID
    */
   public void deleteById(int id) {
-    String sql = "DELETE FROM articles WHERE id = :id";
+    String sql = """
+      WITH delete_comment_id AS (
+        DELETE FROM comments
+        WHERE article_id = :id
+        RETURNING article_id
+      )
+      DELETE FROM articles
+      WHERE id = :id;
+        """;
     MapSqlParameterSource param = new MapSqlParameterSource();
     param.addValue("id", id);
     template.update(sql, param);

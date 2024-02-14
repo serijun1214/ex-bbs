@@ -2,10 +2,15 @@ package com.example.exbbs.controller;
 
 import java.util.List;
 
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.checkerframework.checker.units.qual.m;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,13 +44,8 @@ public class ArticleController {
    * @return 記事一覧画面
    */
   @GetMapping("/article")
-  public String index(Model model) {
-    List<Article> articleList = articleRepository.findAll();
-
-    // for (Article article : articleList) {
-    //   article.setCommentList(commentRepository.findByArticleId(article.getId()));
-    // }
-    
+  public String index(Model model, ArticleForm articleForm, CommentForm commentForm) {
+    List<Article> articleList = articleRepository.findAll();    
     model.addAttribute("articleList", articleList);
     return "index";
   }
@@ -56,9 +56,14 @@ public class ArticleController {
    * @return 記事一覧画面
    */
   @PostMapping("/insertArticle")
-  public String insertArticle(ArticleForm form) {
+  public String insertArticle(@Validated ArticleForm articleForm, BindingResult result, CommentForm commentForm,  Model model) {
+
+    if (result.hasErrors()) {
+      return index(model, articleForm, commentForm);
+    }
+
     Article article = new Article();
-    BeanUtils.copyProperties(form, article);
+    BeanUtils.copyProperties(articleForm, article);
     articleRepository.insert(article);
     return "redirect:/article";
   }
@@ -80,9 +85,14 @@ public class ArticleController {
    * @return 記事一覧画面
    */
   @PostMapping("/insertComment")
-  public String insertComment(CommentForm form) {
+  public String insertComment(@Validated CommentForm commentForm, BindingResult result, ArticleForm articleForm, Model model) {
+
+    if (result.hasErrors()) {
+      return index(model, articleForm, commentForm);
+    }
+
     Comment comment = new Comment();
-    BeanUtils.copyProperties(form, comment);
+    BeanUtils.copyProperties(commentForm, comment);
     commentRepository.insert(comment);
     return "redirect:/article";
   }
