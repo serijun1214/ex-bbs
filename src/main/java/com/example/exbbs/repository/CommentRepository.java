@@ -33,6 +33,7 @@ public class CommentRepository {
 
   /**
    * コメント情報一覧を取得
+   * 
    * @param articleId 記事ID
    * @return コメント情報一覧
    */
@@ -46,9 +47,10 @@ public class CommentRepository {
 
   /**
    * コメント情報を挿入
+   * 
    * @param comment コメント情報
    */
-    /**
+  /**
    * 記事情報を挿入する.
    */
   public void insert(Comment comment) {
@@ -57,6 +59,18 @@ public class CommentRepository {
     param.addValue("name", comment.getName());
     param.addValue("content", comment.getContent());
     param.addValue("articleId", comment.getArticleId());
+    template.update(sql, param);
+  }
+
+  /**
+   * コメント情報を削除
+   * 
+   * @param articleId 記事ID
+   */
+  public void deleteByArticleId(int articleId) {
+    String sql = "DELETE FROM comments WHERE article_id = :articleId";
+    MapSqlParameterSource param = new MapSqlParameterSource();
+    param.addValue("articleId", articleId);
     template.update(sql, param);
   }
 }
